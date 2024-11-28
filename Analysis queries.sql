@@ -59,7 +59,8 @@ FROM
 	NASHVILLE_HOUSING
 LIMIT
 	10;
-
+	
 SELECT *
-FROM nashville_housing
-WHERE "Suite_Condo" IS NOT NULL
+FROM
+	NASHVILLE_HOUSING
+where "Property_City" IS NULL OR "Property_Address" IS NULL;
