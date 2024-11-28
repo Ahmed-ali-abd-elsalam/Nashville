@@ -50,3 +50,16 @@ WHERE
 	NS."Land_Use" = 'VACANT RESIDENTIAL LAND'
 LIMIT
 	10;
+
+-- -------------------------------------------------------
+
+SELECT
+	*
+FROM
+	NASHVILLE_HOUSING
+LIMIT
+	10;
+
+SELECT *
+FROM nashville_housing
+WHERE "Suite_Condo" IS NOT NULL
