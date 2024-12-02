@@ -3,7 +3,8 @@ FROM NASHFULL
 LIMIT 10;
 -- number of units sold in each price range  
 SELECT CEIL("Sale_Price" / 200000 + 1) * 200000 AS "Price_Range",
-	COUNT(CEIL("Sale_Price" / 200000 + 1)) AS "No. OF Units"
+	"Sold_As_Vacant",
+	COUNT(CEIL("Sale_Price" / 200000)) AS "No. OF Units"
 FROM NASHFULL
 GROUP BY "Sold_As_Vacant",
 	CEIL("Sale_Price" / 200000 + 1)
@@ -24,7 +25,7 @@ ORDER BY "Multiple_Parcels_Involved_in_Sale",
 	"Sold_As_Vacant";
 -- NUMBER OF UNITS SOLD AS VACANT DIVIDED BY ACREAGE
 SELECT "Sold_As_Vacant",
-	CEIL("Acreage" /.1) * 0.1 AS "Acreage",
+	round(cast (CEIL("Acreage" /.1) * 0.1 AS Numeric), 1) AS "Acreage",
 	COUNT(CEIL("Acreage" /.1)) AS "No. OF Units"
 FROM NASHFULL
 WHERE "Sold_As_Vacant"
@@ -68,7 +69,7 @@ ORDER BY EXTRACT(
 		MONTH
 		FROM "Sale_Date"
 	);
--- NUMBER OF UNITS SOLD avg price PER MONTH
+-- NUMBER OF vacant UNITS SOLD PER MONTH
 SELECT EXTRACT(
 		YEAR
 		FROM "Sale_Date"
@@ -94,3 +95,11 @@ FROM NASHFULL
 GROUP BY "Property_City"
 ORDER BY "Average_Price" desc,
 	"Property_City";
+-- number of vacant units and average sale price categorized by land use   
+SELECT "Land_Use",
+	COUNT(*) AS "Units",
+	ROUND(AVG("Sale_Price"), 2) AS "Average_Price"
+FROM nashfull
+WHERE "Sold_As_Vacant" = TRUE
+GROUP by "Land_Use"
+ORDER by ROUND(AVG("Sale_Price"), 2)
